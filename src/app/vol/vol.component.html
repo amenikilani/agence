@@ -1,0 +1,75 @@
+<h1>Agence ROA</h1>
+
+
+<h3 *ngIf="volIdToUpdate; else create"> 
+   Update issue for Id: {{issueIdToUpdate}}
+</h3>
+<ng-template #create>
+   <h3> Create New Issue </h3>
+</ng-template>
+<div>
+ <form [formGroup]="volForm" (ngSubmit)="onVolFormSubmit()">
+  <table> 
+     <tr><td>Enter date_depart</td><td><input formControlName="date_depart" placeholder="date_depart" name="date_depart" id="date_depart">
+    <label *ngIf="volForm.get('date_depart').invalid && processValidation" [ngClass] = "'error'"> date_depart is required. </label>
+</td></tr>	
+    <tr><td>Enter date_arrive</td><td><input formControlName="date_arrive"  placeholder="date_arrive" name="date_arrive" id="date_arrive">
+	       <label *ngIf="volForm.get('date_arrive').invalid && processValidation" [ngClass] = "'error'"> date_arrive is required. </label>
+     </td></tr>
+     <tr><td>Enter heure_depart</td><td><input formControlName="heure_depart"   placeholder="heure_depart" name="heure_depart" id="heure_depart">
+      <label *ngIf="volForm.get('heure_depart).invalid && processValidation" [ngClass] = "'error'"> heure_depart is required. </label>
+  </td></tr>
+  <tr><td>Enter heure_arrive</td><td><input formControlName="heure_arrive"   placeholder="heure_arrive" name="heure_arrive" id="heure_arrive">
+    <label *ngIf="volForm.get('heure_arrive).invalid && processValidation" [ngClass] = "'error'"> arrive is required. </label>
+</td></tr>
+
+  <tr><td>Enter prix</td><td><input formControlName="prix"   placeholder="prix" name="prix" id="prix">
+    <label *ngIf="volForm.get('prix').invalid && processValidation" [ngClass] = "'error'"> prixy is required. </label>
+</td></tr>
+<tr><td>Enter place_dispo</td><td><input formControlName="place_dispo" placeholder="place_dispo" name="place_dispo" id="place_dispo">
+  <label *ngIf="volForm.get('place_dispo').invalid && processValidation" [ngClass] = "'error'"> place_dispo is required. </label>
+</td></tr>
+<tr><td>Enter ville_depart</td><td><input formControlName="ville_depart" placeholder="ville_depart" name="ville_depart" id="ville_depart">
+  <label *ngIf="volForm.get('ville_depart').invalid && processValidation" [ngClass] = "'error'"> ville_depart is required. </label>
+</td></tr>
+<tr><td>Enter ville_arrive</td><td><input formControlName="ville_arrive" placeholder="ville_arrive" name="ville_arrive" id="ville_arrive">
+  <label *ngIf="volForm.get('ville_arrive').invalid && processValidation" [ngClass] = "'error'"> ville_arrive is required. </label>
+</td></tr>
+    <tr><td colspan="2">
+	    <button *ngIf="!volIdToUpdate">CREATE</button>  
+		<button *ngIf="volIdToUpdate">UPDATE</button>  
+	    <button (click)="backToCreateVol()" *ngIf="volIdToUpdate">Go Back</button>  
+	</td></tr>
+  </table>
+ </form> 
+ <br/>
+ <div *ngIf="statusCode; else processing">
+   <div *ngIf="statusCode === 201" [ngClass] = "'success'">
+	    vol added successfully.
+   </div>   
+   <div *ngIf="statusCode === 409" [ngClass] = "'success'">
+        vol already exists.
+   </div>   	
+   <div *ngIf="statusCode === 200" [ngClass] = "'success'">
+       vol updated successfully.
+   </div>   	      
+   <div *ngIf="statusCode === 204" [ngClass] = "'success'">
+        vol deleted successfully.
+   </div>   	   
+   <div *ngIf="statusCode === 500" [ngClass] = "'error'">
+        Internal Server Error.
+   </div>	
+ </div>
+ <ng-template #processing>
+	<img *ngIf="requestProcessing" src="assets/images/loading.gif">
+ </ng-template>
+</div>
+<h3>Vol Details</h3>
+<table>
+  <tr><th> Id</th> <th>date_depart</th><th>date_arrive</th><th>heure_depart</th><th>heure_arrive</th><th>prix</th><th>place_dispo</th><th>ville_depart</th><th>ville_arrive</th><th></th><th></th></tr>
+  <tr *ngFor="let vol of allVols" >
+    <td>{{vol.id}}</td> <td>{{vol.date_depart}}</td> <td>{{vol.date_arrive}}</td> <td>{{vol.heure_depart}}</td> <td>{{vol.heure_arrive}}</td> <td>{{vol.prix}}</td> <td>{{vol.place_dispo}}</td> <td>{{vol.ville_depart}}</td> <td>{{vol.ville_arrive}}</td>
+	<td><button type="button" (click)="loadVolToEdit(vol.id)">Edit</button> </td> 
+	<td><button type="button" (click)="deleteVol(vol.id)">Delete</button></td>
+  </tr>
+</table>
