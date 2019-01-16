@@ -99,7 +99,14 @@ logForm(event) {
       this.volService.getVolById(volId)
 	      .subscribe(vol => {
 		            this.volIdToUpdate = vol.id;   
-		            this.volForm.setValue({ date_depart : vol.date_depart, date_arrive: vol.date_arrive, heure_depart : vol.heure_depart, heure_arrive : vol.heure_arrive , prix : vol.prix , place_dispo : vol.place_dispo , ville_depart : vol.ville_depart , ville_arrive : vol.ville_arrive });
+					this.volForm.setValue({ date_depart : vol.date_depart, 
+						date_arrive: vol.date_arrive, 
+						heure_depart : vol.heure_depart,
+						 heure_arrive : vol.heure_arrive , 
+						 prix : vol.prix , 
+						 place_dispo : vol.place_dispo ,
+						  ville_depart : vol.ville_depart ,
+						   ville_arrive : vol.ville_arrive });
 					this.processValidation = true;
 					this.requestProcessing = false;   
 		        },

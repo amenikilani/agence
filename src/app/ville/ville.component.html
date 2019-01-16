@@ -1,0 +1,67 @@
+<h1>Agence ROA</h1>
+
+
+<h3 *ngIf="villeIdToUpdate; else create"> 
+   Update ville for Id: {{villeIdToUpdate}}
+</h3>
+<ng-template #create>
+   <h3> Create New Ville </h3>
+</ng-template>
+<div>
+ <form [formGroup]="villeForm" (ngSubmit)="onVilleFormSubmit()">
+  <table> 
+      <tr><td>Enter id</td><td><input formControlName="id" placeholder="id" name="id" id="id">
+        <label *ngIf="villeForm.get('id').invalid && processValidation" [ngClass] = "'error'"> id is required. </label>
+    </td></tr>
+
+     <tr><td>Enter nom_ville</td><td><input formControlName="nom_ville" placeholder="nom_ville" name="nom_ville" id="nom_ville">
+    <label *ngIf="villeForm.get('nom_ville').invalid && processValidation" [ngClass] = "'error'"> nom_ville is required. </label>
+</td></tr>	
+   
+     
+  
+
+  
+
+    <tr><td colspan="2">
+	    <button *ngIf="!villeIdToUpdate">CREATE</button>  
+		<button *ngIf="villeIdToUpdate">UPDATE</button>  
+	    <button (click)="backToCreateVille()" *ngIf="villeIdToUpdate">Go Back</button>  
+	</td></tr>
+  </table>
+ </form> 
+ <br/>
+ <div *ngIf="statusCode; else processing">
+   <div *ngIf="statusCode === 201" [ngClass] = "'success'">
+	    ville added successfully.
+   </div>   
+   <div *ngIf="statusCode === 409" [ngClass] = "'success'">
+        ville already exists.
+   </div>   	
+   <div *ngIf="statusCode === 200" [ngClass] = "'success'">
+       ville updated successfully.
+   </div>   	      
+   <div *ngIf="statusCode === 204" [ngClass] = "'success'">
+        ville deleted successfully.
+   </div>   	   
+   <div *ngIf="statusCode === 500" [ngClass] = "'error'">
+        Internal Server Error.
+   </div>	
+ </div>
+ <ng-template #processing>
+	<img *ngIf="requestProcessing" src="assets/images/loading.gif">
+ </ng-template>
+</div>
+
+<h3>Ville Details</h3>
+<table>
+  <tr><th> Id</th> <th>nom_ville</th> <th></th><th></th></tr>
+  <tr *ngFor="let ville of allVilles" >
+    <td>{{ville.id}}</td> <td>{{ville.nom_ville}}</td>  
+	<td><button type="button" (click)="loadVilleToEdit(ville.id)">Edit</button> </td> 
+	<td><button type="button" (click)="deleteVille(ville.id)">Delete</button></td>
+  </tr>
+</table>
+
+
+

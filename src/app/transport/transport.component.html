@@ -1,0 +1,85 @@
+<h1>Agence ROA</h1>
+
+
+<h3 *ngIf="transportIdToUpdate; else create"> 
+   Update transport for Id: {{transportIdToUpdate}}
+</h3>
+<ng-template #create>
+   <h3> Create New Transport </h3>
+</ng-template>
+<div>
+ <form [formGroup]="transportForm" (ngSubmit)="onTransportFormSubmit()">
+  
+      <table> 
+          <tr><td>Enter id</td><td><input formControlName="id" placeholder="id" name="id" id="id">
+            <label *ngIf=" transportForm.get('id').invalid && processValidation" [ngClass] = "'error'"> id is required. </label>
+        </td></tr>
+        <tr><td>Enter type</td><td><input formControlName="type" placeholder="type" name="type" id="type">
+          <label *ngIf=" transportForm.get('type').invalid && processValidation" [ngClass] = "'error'"> type is required. </label>
+      </td></tr>
+         <tr><td>Enter prix</td><td><input formControlName="prix" placeholder="prix" name="prix" id="prix">
+        <label *ngIf=" transportForm.get('prix').invalid && processValidation" [ngClass] = "'error'"> prix is required. </label>
+    </td></tr>	
+        <tr><td>Enter nbre_place_dispo</td><td><input formControlName="nbre_place_dispo"  placeholder="nbre_place_dispo" name="nbre_place_dispo" id="nbre_place_dispo">
+             <label *ngIf=" transportForm.get('date_depart_dispo').invalid && processValidation" [ngClass] = "'error'"> nbre_place_dispo is required. </label>
+         </td></tr>
+        
+      
+    
+      <tr><td>Enter heure_depart_dispo</td><td><input formControlName="heure_depart_dispo"   placeholder="heure_depart_dispo" name="heure_depart_dispo" id="heure_depart_dispo">
+        <label *ngIf=" transportForm.get('heure_depart_dispo').invalid && processValidation" [ngClass] = "'error'"> heure_depart_dispo is required. </label>
+    </td></tr>
+    <tr><td>Enter heure_fin_dispo</td><td><input formControlName="heure_fin_dispo"   placeholder="heure_fin_dispo" name="heure_fin_dispo" id="heure_fin_dispo">
+      <label *ngIf=" transportForm.get('heure_fin_dispo').invalid && processValidation" [ngClass] = "'error'"> heure_fin_dispo is required. </label>
+    </td></tr> 
+    <tr><td>Enter ville</td><td><input formControlName="ville"   placeholder="ville" name="ville" id="ville">
+      <label *ngIf=" transportForm.get('ville').invalid && processValidation" [ngClass] = "'error'"> ville is required. </label>
+    </td></tr>
+    
+    <tr><td colspan="2">
+	    <button *ngIf="!transportIdToUpdate">CREATE</button>  
+		<button *ngIf="transportIdToUpdate">UPDATE</button>  
+	    <button (click)="backToCreateTransport()" *ngIf="transportIdToUpdate">Go Back</button>  
+	</td></tr>
+  </table>
+ </form> 
+ <br/>
+ <div *ngIf="statusCode; else processing">
+   <div *ngIf="statusCode === 201" [ngClass] = "'success'">
+	    transport added successfully.
+   </div>   
+   <div *ngIf="statusCode === 409" [ngClass] = "'success'">
+        transport already exists.
+   </div>   	
+   <div *ngIf="statusCode === 200" [ngClass] = "'success'">
+       transport updated successfully.
+   </div>   	      
+   <div *ngIf="statusCode === 204" [ngClass] = "'success'">
+        transport deleted successfully.
+   </div>   	   
+   <div *ngIf="statusCode === 500" [ngClass] = "'error'">
+        Internal Server Error.
+   </div>	
+ </div>
+ <ng-template #processing>
+	<img *ngIf="requestProcessing" src="assets/images/loading.gif">
+ </ng-template>
+</div>
+
+<h3>Transport Details</h3>
+<table>
+    <tr><th> Id</th> <th>type</th><th>prix</th><th>nbre_place_dispo</th><th>date_depart_dispo</th>
+      <th>prix</th><th>heure_depart_dispo</th>><th></th><th></th></tr>
+    <tr *ngFor="let  transport of allTransports" >
+      <td>{{ transport.id}}</td> <td>{{ transport.type}}</td> 
+       <td>{{ transport.prix}}</td> <td>{{ transport.nbre_place_dispo}}</td> <td>{{ transport.date_depart_dispo}}</td>
+        <td>{{ transport.prix}}</td> <td>{{ transport.heure_depart_dispo}}</td>
+      <td><button type="button" (click)="loadTransportToEdit( transport.id)">Edit</button> </td>
+    <td><button type="button" (click)="deleteTransport( transport.id)">Delete</button></td>
+    </tr>
+  </table>
+
+
+
+
+

@@ -1,0 +1,74 @@
+<h1>Agence ROA</h1>
+
+
+<h3 *ngIf="hebergementIdToUpdate; else create"> 
+   Update hebergement for Id: {{hebergementIdToUpdate}}
+</h3>
+<ng-template #create>
+   <h3> Create New hebergement </h3>
+</ng-template>
+<div>
+ <form [formGroup]="hebergementForm" (ngSubmit)="onHebergementFormSubmit()">
+  <table> 
+      <tr><td>Enter id</td><td><input formControlName="id" placeholder="id" name="id" id="id">
+        <label *ngIf="hebergementForm.get('id').invalid && processValidation" [ngClass] = "'error'"> id is required. </label>
+    </td></tr>
+    <tr><td>Enter ville</td><td><input formControlName="ville" placeholder="ville" name="ville" id="ville">
+      <label *ngIf="hebergementForm.get('ville').invalid && processValidation" [ngClass] = "'error'"> ville is required. </label>
+  </td></tr>
+     <tr><td>Enter date_depart_dispo</td><td><input formControlName="date_depart_dispo" placeholder="date_depart_dispo" name="date_depart_dispo" id="date_depart_dispo">
+    <label *ngIf="hebergementForm.get('date_depart_dispo').invalid && processValidation" [ngClass] = "'error'"> date_depart_dispo is required. </label>
+</td></tr>	
+    
+     
+  <tr><td>Enter prix</td><td><input formControlName="prix"   placeholder="prix" name="prix" id="prix">
+    <label *ngIf="hebergementForm.get('prix').invalid && processValidation" [ngClass] = "'error'"> arrive is required. </label>
+</td></tr>
+  <tr><td>Enter nbre_chambre</td><td><input formControlName="nbre_chambre"   placeholder="nbre_chambre" name="nbre_chambre" id="prix">
+    <label *ngIf="hebergementForm.get('nbre_chambre').invalid && processValidation" [ngClass] = "'error'"> nbre_chambre is required. </label>
+</td></tr>
+
+    <tr><td colspan="2">
+	    <button *ngIf="!hebergementIdToUpdate">CREATE</button>  
+	<button *ngIf="hebergementIdToUpdate">UPDATE</button>  
+	    <button (click)="backToCreateHebergement()" *ngIf="hebergementIdToUpdate">Go Back</button>  
+	</td></tr>
+  </table>
+ </form> 
+ <br/>
+ <div *ngIf="statusCode; else processing">
+   <div *ngIf="statusCode === 201" [ngClass] = "'success'">
+    hebergement added successfully.
+   </div>   
+   <div *ngIf="statusCode === 409" [ngClass] = "'success'">
+    hebergement already exists.
+   </div>   	
+   <div *ngIf="statusCode === 200" [ngClass] = "'success'">
+    hebergement updated successfully.
+   </div>   	      
+   <div *ngIf="statusCode === 204" [ngClass] = "'success'">
+    hebergement deleted successfully.
+   </div>   	   
+   <div *ngIf="statusCode === 500" [ngClass] = "'error'">
+        Internal Server Error.
+   </div>	
+ </div>
+ <ng-template #processing>
+	<img *ngIf="requestProcessing" src="assets/images/loading.gif">
+ </ng-template>
+</div>
+<h3>Hebergement Details</h3>
+<table>
+  <tr><th> Id</th> <th>ville</th><th>date_depart_dispo</th><th>date_fin_dispo</th><th>designation</th>
+    <th>prix</th><th>nbre_chambre</th>><th></th><th></th></tr>
+  <tr *ngFor="let hebergement of allHebergements" >
+    <td>{{hebergement.id}}</td> <td>{{hebergement.ville}}</td> 
+     <td>{{hebergement.date_depart_dispo}}</td> <td>{{hebergement.date_fin_dispo}}</td> <td>{{hebergement.designation}}</td>
+      <td>{{hebergement.prix}}</td> <td>{{hebergement.nbre_chambre}}</td>
+    <td><button type="button" (click)="loadHebergementToEdit(hebergement.id)">Edit</button> </td>
+	<td><button type="button" (click)="deleteHebergement(hebergement.id)">Delete</button></td>
+  </tr>
+</table>
+
+
+<ng-content></ng-content>

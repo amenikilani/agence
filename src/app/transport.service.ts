@@ -3,59 +3,53 @@ import { Http, Response, Headers, URLSearchParams, RequestOptions } from '@angul
 import { Observable } from 'rxjs';
 import { map } from "rxjs/operators";
 import { catchError } from 'rxjs/operators';
-import { Vol } from './vol';
+import { Transport } from './transport';
 @Injectable()
-export class VolService {
+export class TransportService {
       //URL for CRUD operations
-   volUrl = "http://localhost:8063/vols";
+   transportUrl = "http://localhost:8063/transports";
     //Create constructor to get Http instance
     constructor(private http:Http) { 
     }
     //Fetch all articles
-      getAllVols(): Observable<Vol[]> {
-          return this.http.get(this.volUrl)
+      getAllTransports(): Observable<Transport[]> {
+          return this.http.get(this.transportUrl)
              .pipe(map(this.extractData),
               catchError(this.handleError));
   
       }
     //Create article
-      createVol(vol: Vol):Observable<any> {
+      createTransport(transport: Transport):Observable<any> {
         let cpHeaders = new Headers({ 'Content-Type': 'application/json' });
           let options = new RequestOptions({ headers: cpHeaders });
-          return this.http.post(this.volUrl, vol, options)
+          return this.http.post(this.transportUrl, transport, options)
                  .pipe(map(success => success.status),
                  catchError(this.handleError));
       }
     //Fetch article by id
-      getVolById(volId: String): Observable<Vol> {
+      getTransportById(transportId: String): Observable<Transport> {
       let cpHeaders = new Headers({ 'Content-Type': 'application/json' });
       let options = new RequestOptions({ headers: cpHeaders });
-      console.log(this.volUrl +"/"+ volId);
-      return this.http.get(this.volUrl +"/"+ volId)
+      console.log(this.transportUrl +"/"+ transportId);
+      return this.http.get(this.transportUrl +"/"+ transportId)
            .pipe(map(this.extractData)
            ,catchError(this.handleError));
       }	
     //Update article
-      updateVol(vol: Vol):Observable<any> {
+      updateTransport(transport: Transport):Observable<any> {
         let cpHeaders = new Headers({ 'Content-Type': 'application/json' });
           let options = new RequestOptions({ headers: cpHeaders });
-          return this.http.put(this.volUrl +"/"+ vol.id, vol, options)
+          return this.http.put(this.transportUrl +"/"+ transport.id, transport, options)
                  .pipe(map(success => success.status),
                  catchError(this.handleError));
                 
 
       }
-      
-      getCustomersByid(id: number): Observable<any> {
-        return this.http.get(`${this.volUrl}/${id}`);
-      }
-
-
       //Delete article	
-      deleteVolById(volId: String): Observable<number> {
+      deleteTransportById(transportId: String): Observable<number> {
       let cpHeaders = new Headers({ 'Content-Type': 'application/json' });
       let options = new RequestOptions({ headers: cpHeaders });
-      return this.http.delete(this.volUrl +"/"+ volId)
+      return this.http.delete(this.transportUrl +"/"+ transportId)
            .pipe(map(success => success.status)
            ,catchError(this.handleError));
       }	

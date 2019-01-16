@@ -1,0 +1,19 @@
+<h3>Find By vol</h3>
+<div style="width: 300px;">
+  <form (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label for="vol"> id vol</label>
+      <input type="text" class="form-control" id="vol" required [(ngModel)]="id" name="vol">
+    </div>
+
+ 
+    <div class="btn-group">
+      <button type="submit" class="btn btn-success">Submit</button>
+    </div>
+  </form>
+</div>
+<ul>
+  <li *ngFor="let vol of vols">
+    <h4>{{vol.prix}} </h4>
+  </li>
+</ul>

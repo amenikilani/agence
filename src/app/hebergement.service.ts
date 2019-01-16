@@ -3,59 +3,53 @@ import { Http, Response, Headers, URLSearchParams, RequestOptions } from '@angul
 import { Observable } from 'rxjs';
 import { map } from "rxjs/operators";
 import { catchError } from 'rxjs/operators';
-import { Vol } from './vol';
+import { Hebergement } from './hebergement';
 @Injectable()
-export class VolService {
+export class HebergementService {
       //URL for CRUD operations
-   volUrl = "http://localhost:8063/vols";
+   hebergementUrl = "http://localhost:8063/hebergements";
     //Create constructor to get Http instance
     constructor(private http:Http) { 
     }
     //Fetch all articles
-      getAllVols(): Observable<Vol[]> {
-          return this.http.get(this.volUrl)
+      getAllHebergements(): Observable<Hebergement[]> {
+          return this.http.get(this.hebergementUrl)
              .pipe(map(this.extractData),
               catchError(this.handleError));
   
       }
     //Create article
-      createVol(vol: Vol):Observable<any> {
+      createHebergement(hebergement: Hebergement):Observable<any> {
         let cpHeaders = new Headers({ 'Content-Type': 'application/json' });
           let options = new RequestOptions({ headers: cpHeaders });
-          return this.http.post(this.volUrl, vol, options)
+          return this.http.post(this.hebergementUrl, hebergement, options)
                  .pipe(map(success => success.status),
                  catchError(this.handleError));
       }
     //Fetch article by id
-      getVolById(volId: String): Observable<Vol> {
+      getHebergementById(volId: String): Observable<Hebergement> {
       let cpHeaders = new Headers({ 'Content-Type': 'application/json' });
       let options = new RequestOptions({ headers: cpHeaders });
-      console.log(this.volUrl +"/"+ volId);
-      return this.http.get(this.volUrl +"/"+ volId)
+      console.log(this.hebergementUrl +"/"+ volId);
+      return this.http.get(this.hebergementUrl +"/"+ volId)
            .pipe(map(this.extractData)
            ,catchError(this.handleError));
       }	
     //Update article
-      updateVol(vol: Vol):Observable<any> {
+      updateHebergement(hebergement: Hebergement):Observable<any> {
         let cpHeaders = new Headers({ 'Content-Type': 'application/json' });
           let options = new RequestOptions({ headers: cpHeaders });
-          return this.http.put(this.volUrl +"/"+ vol.id, vol, options)
+          return this.http.put(this.hebergementUrl +"/"+ hebergement.id, hebergement, options)
                  .pipe(map(success => success.status),
                  catchError(this.handleError));
                 
 
       }
-      
-      getCustomersByid(id: number): Observable<any> {
-        return this.http.get(`${this.volUrl}/${id}`);
-      }
-
-
       //Delete article	
-      deleteVolById(volId: String): Observable<number> {
+      deleteHebergementById(volId: String): Observable<number> {
       let cpHeaders = new Headers({ 'Content-Type': 'application/json' });
       let options = new RequestOptions({ headers: cpHeaders });
-      return this.http.delete(this.volUrl +"/"+ volId)
+      return this.http.delete(this.hebergementUrl +"/"+ volId)
            .pipe(map(success => success.status)
            ,catchError(this.handleError));
       }	
